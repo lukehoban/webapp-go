@@ -17,11 +17,13 @@ type Page struct {
 	Body  []byte
 }
 
+// save saves the file.
 func (p *Page) save() error {
 	filename := p.Title + ".txt"
 	return ioutil.WriteFile(filename, p.Body, 0600)
 }
 
+// loadPage loads the page.
 func loadPage(title string) (*Page, error) {
 	filename := title + ".txt"
 	body, err := ioutil.ReadFile(filename)
@@ -37,6 +39,7 @@ func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 		http.Redirect(w, r, "/edit/"+title, http.StatusFound)
 		return
 	}
+
 	renderTemplate(w, "view", p)
 }
 
@@ -79,6 +82,7 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 		}
 		fn(w, r, m[2])
 	}
+
 }
 
 func main() {
@@ -88,11 +92,11 @@ func main() {
 
 	listener, _ := net.Listen("tcp", ":8080")
 	done := make(chan interface{})
-    go func() {
+	go func() {
 		http.Serve(listener, nil)
 		done <- nil
 	}()
-	
+
 	http.Get("http://localhost:8080/view/test")
 	<-done
 }

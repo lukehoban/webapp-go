@@ -1,0 +1,32 @@
+{
+    "version": "0.2.0",
+    "debugServer": 4711,
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceRoot}",
+            "env": {},
+            "args": []
+        },
+        {
+            // To remote debug in Docker, run the following before debugging:
+            // # docker build -t webapp-go .
+            // # docker run -d --name webapp-go --privileged -p 8080:8080 -p 2345:2345 webapp-go
+            // And then each time you want to restart debugging:
+            // # docker restart
+            "name": "Remote debug in Docker",
+            "type": "go",
+            "request": "launch",
+            "mode": "remote",
+            "program": "${workspaceRoot}",
+            "env": {},
+            "args": [],
+            "remotePath": "/go/src/app",
+            "port": 2345, // Port 
+            "host": "192.168.99.100" // Docker IP 
+        }
+    ]
+}
